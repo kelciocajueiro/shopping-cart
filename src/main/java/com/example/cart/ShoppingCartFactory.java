@@ -17,26 +17,27 @@ public class ShoppingCartFactory {
 		return carts.computeIfAbsent(clientId, key -> new ShoppingCart());
 	}
 
-	/**
-	 * Returns the value of the average ticket at the time of calling the method.
-	 * The average ticket value is the sum of the total value of all shopping cart divided by the number of shopping carts.
-	 * The returned value must be rounded to two decimal places:
-	 * 0-4 should be rounded down and 5-9 should be rounded up.
-	 */
-	public BigDecimal getAvgTicketValue() {
+  /**
+   * Returns the value of the average ticket at the time of calling the method. The average ticket
+   * value is the sum of the total value of all shopping cart divided by the number of shopping
+   * carts. The returned value must be rounded to two decimal places: 0-4 should be rounded down and
+   * 5-9 should be rounded up.
+   */
+  public BigDecimal getAvgTicketValue() {
 
-		int cartSize = carts.size();
+    int cartSize = carts.size();
 
-		if (cartSize == 0) {
-			return BigDecimal.ZERO;
-		}
+    if (cartSize == 0) {
+      return BigDecimal.ZERO;
+    }
 
-		BigDecimal totalValueCart = carts.values().stream()
-				.map(ShoppingCart::getTotalValue)
-				.reduce(BigDecimal.ZERO, BigDecimal::add);
+    BigDecimal totalValueCart =
+        carts.values().stream()
+            .map(ShoppingCart::getTotalValue)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-		return totalValueCart.divide(BigDecimal.valueOf(cartSize), 2, RoundingMode.HALF_UP);
-	}
+    return totalValueCart.divide(BigDecimal.valueOf(cartSize), 2, RoundingMode.HALF_UP);
+  }
 
 	/**
 	 * Invalidates a shopping cart when the customer checks out or their session expires.
